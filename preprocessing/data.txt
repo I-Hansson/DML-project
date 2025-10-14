@@ -1,0 +1,20 @@
+from pathlib import Path
+from kaggle.api.kaggle_api_extended import KaggleApi
+
+data_dir = 'data-raw'
+dataset_slug = 'neisse/scrapped-lyrics-from-6-genres'
+
+api = KaggleApi()
+api.authenticate()
+
+cwd = Path(os.getcwd())
+data_path = cwd / data_dir
+data_path.mkdir(exist_ok=True) 
+print(data_path)
+
+if any(data_path.iterdir()):
+    print(f"Data already exists in '{data_path}'. Skipping download.")
+else:
+    print(f"Downloading dataset '{dataset_slug}' to '{data_path}' ...")
+    api.dataset_download_files(dataset_slug, path=str(data_path), unzip=True)
+    print("Download complete!")
